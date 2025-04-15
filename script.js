@@ -12,7 +12,7 @@ document.getElementById("contact-form").addEventListener("submit", function (e) 
     document.getElementById("thank-you-message").style.display = "block";
   
     // Send form data to FormSubmit manually
-    fetch("https://formsubmit.co/ajax/auffarooqui75@gmail.com", {
+    fetch("https://formsubmit.co/ajax/8b9ace7bb4ff71caf5f55d0b19fb0ac7", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',

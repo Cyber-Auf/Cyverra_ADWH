@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cyverra ADWH - Contact</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
   <header>
@@ -19,16 +17,8 @@
     <section class="form-section">
       <h2>Contact Us</h2>
 
-      <!-- Updated form action -->
-      <form id="contact-form" action="https://formsubmit.co/auffarooqui75@gmail.com" method="POST">
-        
-        <!-- Hidden fields for email subject and captcha -->
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_subject" value="New Form Submission from Website">
-        
-        <!-- Form fields -->
-        <input type="text" name="name" id="name" placeholder="Your Name" required />
+      <form id="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required />
         <input type="tel" name="phone" placeholder="Your Phone Number" required />
         <input type="email" name="email" placeholder="Your Email" required />
         <input type="text" name="address" placeholder="Your Address" required />
@@ -64,25 +54,5 @@
   </main>
 
   <script src="script.js"></script>
-  <script>
-    // JavaScript to show thank you message after form submission
-    const form = document.getElementById("contact-form");
-    const thankYouMessage = document.getElementById("thank-you-message");
-    const thankName = document.getElementById("thank-name");
-
-    form.addEventListener("submit", function(event) {
-      event.preventDefault(); // Prevent form submission
-
-      // Get user name from the form and show thank you message
-      const userName = document.getElementById("name").value;
-      thankName.innerText = `Thank you, ${userName}!`;
-
-      // Hide the form and show thank you message
-      form.style.display = "none";
-      thankYouMessage.style.display = "block";
-    });
-  </script>
-
 </body>
-
 </html>
