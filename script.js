@@ -4,6 +4,9 @@ document.getElementById("contact-form").addEventListener("submit", function (e) 
     const form = e.target;
     const name = form.name.value;
   
+    // Show loading spinner
+    document.getElementById("loading-spinner").style.display = "block";
+  
     // Hide form
     form.style.display = "none";
   
@@ -29,12 +32,55 @@ document.getElementById("contact-form").addEventListener("submit", function (e) 
         _template: "table",
         _subject: "New Form Submission from Website"
       })
-    }).then(response => response.json())
+    })
+      .then(response => response.json())
       .then(data => {
         console.log("Email sent!", data);
+        
+        // Reset the form fields
+        form.reset();
+  
+        // Hide the loading spinner after submission
+        document.getElementById("loading-spinner").style.display = "none";
       })
       .catch(error => {
         console.error("Error:", error);
+  
+        // Hide the loading spinner after error
+        document.getElementById("loading-spinner").style.display = "none";
+  
+        // Show an error message to the user
+        alert("There was an issue submitting your form. Please try again later.");
       });
   });
+  document.addEventListener("DOMContentLoaded", () => {
+    const postsContainer = document.getElementById("posts-container");
+  
+    // Define the list of media files
+    const mediaFiles = [
+      'image1.jpg',
+      'video1.mp4'
+    ];
+  
+    mediaFiles.forEach(file => {
+      const fileExtension = file.split('.').pop().toLowerCase();
+      const mediaPath = `posts/${file}`;
+      let mediaElement;
+  
+      if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+        mediaElement = document.createElement('img');
+        mediaElement.src = mediaPath;
+        mediaElement.alt = file;
+      } else if (['mp4', 'webm', 'ogg'].includes(fileExtension)) {
+        mediaElement = document.createElement('video');
+        mediaElement.src = mediaPath;
+        mediaElement.controls = true;
+      }
+  
+      if (mediaElement) {
+        postsContainer.appendChild(mediaElement);
+      }
+    });
+  });
+  
   

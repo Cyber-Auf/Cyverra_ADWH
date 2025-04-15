@@ -5,16 +5,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cyverra ADWH - Contact</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* 🔷 Navigation Bar */
+    nav {
+      background: #111;
+      padding: 12px 0;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #00d9ff;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
 <body>
 
-  <header>
-    <h1>My Company : Cyverra ADWH</h1>
+  <!-- 🔷 Top Navigation -->
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#job-form">Job Form</a>
+    <a href="#posts">Posts</a>
+  </nav>
+
+  <!-- 🔷 Company Header -->
+  <header id="home">
+    <div class="company-header">
+      <div class="logo-container">
+        <div class="glassy-logo-frame">
+          <img src="assets/company_logo.png" alt="Cyverra Logo" class="circle-logo" />
+        </div>
+        <h1 class="company-title">Cyverra ADWH</h1>
+        <p class="company-subtitle">Forge Transformative Alliances with Cyverra ADWH</p>
+      </div>
+    </div>
+
+    <!-- 🔗 Social Section -->
+    <section class="social-section">
+      <h2>Initiate a Conversation with Our Team</h2>
+      <p>Follow me for updates, innovations, and exclusive content.</p>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/adw.alrt?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-icon instagram" title="Follow on Instagram">
+          <i class="fab fa-instagram"></i> Instagram
+        </a>
+        <a href="https://www.facebook.com/Cyverra.Auf/about" target="_blank" class="social-icon facebook" title="Connect on Facebook">
+          <i class="fab fa-facebook"></i> Facebook
+        </a>
+        <a href="https://www.linkedin.com/in/cyverra-adwh-5b0455360" target="_blank" class="social-icon linkedin" title="Connect on LinkedIn">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+      </div>
+    </section>
+
+    <h1>Company : Cyverra ADWH</h1>
     <p>We provide world-class solutions in software, game, and business promotion.</p>
   </header>
 
+  <!-- 🔷 Job Form Section -->
   <main>
-    <section class="form-section">
+    <section class="form-section" id="job-form">
       <h2>Contact Us</h2>
 
       <form id="contact-form">
@@ -45,12 +111,25 @@
         <button type="submit">Submit</button>
       </form>
 
-      <!-- Thank You Message -->
+      <!-- Loading Spinner (initially hidden) -->
+<div id="loading-spinner" style="display: none;">
+  <p>Submitting...</p>
+  <!-- You can add an actual spinner image or animation here -->
+</div>
+
+
+      <!-- ✅ Thank You Message -->
       <div id="thank-you-message" style="display:none;">
         <h2 id="thank-name"></h2>
         <p>Thank you for contacting <strong>Cyverra ADWH</strong>. We will get back to you soon!</p>
       </div>
     </section>
+
+    <!-- 🔷 Posts Section -->
+<section id="posts" style="text-align:center; padding:40px;">
+  <h2>Our Latest Posts</h2>
+  <div id="posts-container" class="posts-grid"></div>
+</section>
   </main>
 
   <script src="script.js"></script>
