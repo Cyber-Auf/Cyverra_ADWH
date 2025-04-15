@@ -56,34 +56,101 @@ document.getElementById("contact-form").addEventListener("submit", function (e) 
   document.addEventListener("DOMContentLoaded", () => {
     const postsContainer = document.getElementById("posts-container");
   
-    // Define the list of media files
-    const mediaFiles = [
-      'image1.jpg',
-      'video1.mp4'
-    ];
+    const mediaFiles = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'video1.mp4'];
+    const shareURL = encodeURIComponent("https://your-website-url.com"); // Your URL here
   
-    mediaFiles.forEach(file => {
-      const fileExtension = file.split('.').pop().toLowerCase();
+    mediaFiles.forEach((file) => {
+      const ext = file.split('.').pop().toLowerCase();
       const mediaPath = `posts/${file}`;
       let mediaElement;
   
-      // Check for image files
-      if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+      if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) {
         mediaElement = document.createElement('img');
         mediaElement.src = mediaPath;
-        mediaElement.alt = `Image: ${file}`;
-      } 
-      // Check for video files
-      else if (['mp4', 'webm', 'ogg'].includes(fileExtension)) {
+      } else if (['mp4', 'webm', 'ogg'].includes(ext)) {
         mediaElement = document.createElement('video');
         mediaElement.src = mediaPath;
         mediaElement.controls = true;
       }
   
-      // If media element created, append to container
+      const postDiv = document.createElement('div');
+      postDiv.classList.add('post');
+  
       if (mediaElement) {
-        postsContainer.appendChild(mediaElement);
+        mediaElement.classList.add('post-media');
+        postDiv.appendChild(mediaElement);
       }
+  
+      const buttonsDiv = document.createElement('div');
+      buttonsDiv.classList.add('buttons');
+  
+      // 👍 Like Button
+      const likeButton = document.createElement('button');
+      likeButton.innerHTML = "👍 Like";
+      likeButton.className = "action-btn";
+      likeButton.onclick = () => likeButton.classList.toggle("liked");
+  
+      // 💬 Comment Button + Comment List
+      const commentButton = document.createElement('button');
+      commentButton.innerHTML = "💬 Comment";
+      commentButton.className = "action-btn";
+  
+      const commentList = document.createElement('ul');
+      commentList.className = "comment-list";
+  
+      commentButton.onclick = () => {
+        const comment = prompt("📝 Write your comment:");
+        if (comment) {
+          const commentItem = document.createElement('li');
+          commentItem.textContent = comment;
+          commentItem.className = "comment-item";
+          commentList.appendChild(commentItem);
+        }
+      };
+  
+      // 🔗 Share Button + Dropdown
+      const shareButton = document.createElement('button');
+      shareButton.innerHTML = "🔗 Share";
+      shareButton.className = "action-btn";
+  
+      const dropdown = document.createElement("div");
+      dropdown.className = "share-dropdown";
+      dropdown.style.display = "none";
+  
+      const platforms = {
+        "WhatsApp": `https://wa.me/?text=${shareURL}`,
+        "Facebook": `https://facebook.com/sharer/sharer.php?u=${shareURL}`,
+        "Twitter": `https://twitter.com/intent/tweet?url=${shareURL}`,
+        "Telegram": `https://t.me/share/url?url=${shareURL}`,
+        "Copy Link": "#"
+      };
+  
+      Object.entries(platforms).forEach(([name, link]) => {
+        const a = document.createElement("a");
+        a.href = link;
+        a.target = "_blank";
+        a.textContent = name;
+        a.className = "share-option";
+  
+        if (name === "Copy Link") {
+          a.onclick = (e) => {
+            e.preventDefault();
+            navigator.clipboard.writeText("https://your-website-url.com");
+            alert("🔗 Link copied!");
+          };
+        }
+  
+        dropdown.appendChild(a);
+      });
+  
+      shareButton.onclick = () => {
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+      };
+  
+      buttonsDiv.append(likeButton, commentButton, shareButton, dropdown);
+      postDiv.appendChild(buttonsDiv);
+      postDiv.appendChild(commentList);  // Attach the comment display list
+      postsContainer.appendChild(postDiv);
     });
   });
   
