@@ -70,7 +70,7 @@ document.getElementById("contact-form").addEventListener("submit", function (e) 
       if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
         mediaElement = document.createElement('img');
         mediaElement.src = mediaPath;
-        mediaElement.alt = file;
+        mediaElement.alt = `Image: ${file}`;
       } else if (['mp4', 'webm', 'ogg'].includes(fileExtension)) {
         mediaElement = document.createElement('video');
         mediaElement.src = mediaPath;
@@ -82,5 +82,4 @@ document.getElementById("contact-form").addEventListener("submit", function (e) 
       }
     });
   });
-  
   
