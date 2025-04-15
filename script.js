@@ -67,16 +67,20 @@ document.getElementById("contact-form").addEventListener("submit", function (e) 
       const mediaPath = `posts/${file}`;
       let mediaElement;
   
+      // Check for image files
       if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
         mediaElement = document.createElement('img');
         mediaElement.src = mediaPath;
         mediaElement.alt = `Image: ${file}`;
-      } else if (['mp4', 'webm', 'ogg'].includes(fileExtension)) {
+      } 
+      // Check for video files
+      else if (['mp4', 'webm', 'ogg'].includes(fileExtension)) {
         mediaElement = document.createElement('video');
         mediaElement.src = mediaPath;
         mediaElement.controls = true;
       }
   
+      // If media element created, append to container
       if (mediaElement) {
         postsContainer.appendChild(mediaElement);
       }
