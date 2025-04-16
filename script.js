@@ -1,58 +1,38 @@
 document.getElementById("contact-form").addEventListener("submit", function (e) {
-    e.preventDefault(); // Prevent default form submit
-  
-    const form = e.target;
-    const name = form.name.value;
-  
-    // Show loading spinner
-    document.getElementById("loading-spinner").style.display = "block";
-  
-    // Hide form
-    form.style.display = "none";
-  
-    // Show thank you message with user's name
-    document.getElementById("thank-name").textContent = `Thank you, ${name}!`;
-    document.getElementById("thank-you-message").style.display = "block";
-  
-    // Send form data to FormSubmit manually
-    fetch("https://formsubmit.co/ajax/8b9ace7bb4ff71caf5f55d0b19fb0ac7", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        name: form.name.value,
-        phone: form.phone.value,
-        email: form.email.value,
-        address: form.address.value,
-        gender: form.gender.value,
-        category: form.category.value,
-        _captcha: false,
-        _template: "table",
-        _subject: "New Form Submission from Website"
-      })
+  e.preventDefault();
+
+  const form = e.target;
+
+  document.getElementById("loading-spinner").style.display = "block";
+  form.style.display = "none";
+
+  document.getElementById("thank-name").textContent = `Thank you, ${form.name.value}!`;
+  document.getElementById("thank-you-message").style.display = "block";
+
+  const formData = new FormData(form); // Important: Use FormData not JSON
+
+  // Add extra params if needed
+  formData.append("_captcha", "false");
+  formData.append("_template", "table");
+  formData.append("_subject", "New Form Submission from Website");
+
+  fetch("https://formsubmit.co/ajax/8b9ace7bb4ff71caf5f55d0b19fb0ac7", {
+    method: "POST",
+    body: formData,
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Email sent!", data);
+      form.reset();
+      document.getElementById("loading-spinner").style.display = "none";
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log("Email sent!", data);
-        
-        // Reset the form fields
-        form.reset();
-  
-        // Hide the loading spinner after submission
-        document.getElementById("loading-spinner").style.display = "none";
-      })
-      .catch(error => {
-        console.error("Error:", error);
-  
-        // Hide the loading spinner after error
-        document.getElementById("loading-spinner").style.display = "none";
-  
-        // Show an error message to the user
-        alert("There was an issue submitting your form. Please try again later.");
-      });
-  });
+    .catch(error => {
+      console.error("Error:", error);
+      document.getElementById("loading-spinner").style.display = "none";
+      alert("There was an issue submitting your form. Please try again later.");
+    });
+});
+
   document.addEventListener("DOMContentLoaded", () => {
     const postsContainer = document.getElementById("posts-container");
   
@@ -153,4 +133,45 @@ document.getElementById("contact-form").addEventListener("submit", function (e) 
       postsContainer.appendChild(postDiv);
     });
   });
+  function generateQR() {
+    const fileInput = document.getElementById("fileInput");
+    const file = fileInput.files[0];
+  
+    if (!file) {
+      alert("Please upload a file first.");
+      return;
+    }
+  
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const fileData = e.target.result;
+  
+      // Encode file data as Base64
+      const base64Data = btoa(fileData);
+  
+      // Generate QR code using third-party API or your own method
+      const qrData = `data:${file.type};base64,${base64Data}`;
+  
+      // Clear previous QR
+      document.getElementById("qrResult").innerHTML = "";
+  
+      // Create QR image using Google API
+      const qrImage = document.createElement("img");
+      qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrData)}&size=250x250`;
+      qrImage.alt = "QR Code";
+      qrImage.style = "margin-top: 20px;";
+  
+      // Download button
+      const downloadBtn = document.createElement("a");
+      downloadBtn.href = qrImage.src;
+      downloadBtn.download = "document_qr.png";
+      downloadBtn.innerText = "Download QR";
+      downloadBtn.style = "display: block; margin-top: 20px; background: #222; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;";
+  
+      document.getElementById("qrResult").appendChild(qrImage);
+      document.getElementById("qrResult").appendChild(downloadBtn);
+    };
+  
+    reader.readAsBinaryString(file);
+  }
   
